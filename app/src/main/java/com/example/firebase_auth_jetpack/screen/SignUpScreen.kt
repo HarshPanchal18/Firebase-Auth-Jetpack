@@ -37,7 +37,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -146,7 +145,7 @@ fun SignUpScreen(
         ) {
             IconButton(onClick = {}) {
                 Icon(
-                    painter = painterResource(id = com.google.android.gms.base.R.drawable.common_google_signin_btn_icon_dark),
+                    painter = painterResource(id = R.drawable.ic_circle),
                     contentDescription = "Google Icon",
                     modifier = Modifier.size(50.dp),
                     tint = Color.Unspecified
@@ -155,7 +154,7 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.width(20.dp))
             IconButton(onClick = {}) {
                 Icon(
-                    painter = painterResource(com.google.android.gms.base.R.drawable.common_google_signin_btn_icon_light),
+                    painter = painterResource(R.drawable.ic_circle),
                     contentDescription = "Facebook Icon",
                     modifier = Modifier.size(50.dp),
                     tint = Color.Unspecified

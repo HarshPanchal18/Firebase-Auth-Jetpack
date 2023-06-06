@@ -7,7 +7,6 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.example.firebase_auth_jetpack.data.AuthRepository
 import com.example.firebase_auth_jetpack.state.SignInState
 import com.example.firebase_auth_jetpack.util.Resource
-import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -18,7 +17,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val repository: AuthRepository,
     private val savedStateHandle: SavedStateHandle,
-    private val owner: SavedStateRegistryOwner
+    //private val owner: SavedStateRegistryOwner,
 ) : ViewModel() {
 
     private companion object {
