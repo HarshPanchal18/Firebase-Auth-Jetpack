@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.firebase_auth_jetpack.viewmodel.SignInViewModel
-import com.example.firebase_auth_jetpack.viewmodel.SignUpViewModel
 import com.google.android.gms.base.R
 import kotlinx.coroutines.launch
 
