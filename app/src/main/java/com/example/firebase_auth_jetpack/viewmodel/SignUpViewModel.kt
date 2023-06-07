@@ -3,7 +3,6 @@ package com.example.firebase_auth_jetpack.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.savedstate.SavedStateRegistryOwner
 import com.example.firebase_auth_jetpack.data.AuthRepository
 import com.example.firebase_auth_jetpack.state.SignInState
 import com.example.firebase_auth_jetpack.util.Resource

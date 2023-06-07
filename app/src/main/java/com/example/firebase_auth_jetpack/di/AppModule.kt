@@ -1,7 +1,5 @@
 package com.example.firebase_auth_jetpack.di
 
-import android.app.Application
-import androidx.savedstate.SavedStateRegistryOwner
 import com.example.firebase_auth_jetpack.data.AuthRepository
 import com.example.firebase_auth_jetpack.data.AuthRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
