@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,7 +22,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -42,12 +47,19 @@ import com.example.firebase_auth_jetpack.ui.theme.spacing
 import com.example.firebase_auth_jetpack.utils.Resource
 import com.example.firebase_auth_jetpack.viewmodel.AuthViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun LoginScreen(navController: NavController, viewModel: AuthViewModel?) {
+fun LoginScreen(
+    navController: NavController,
+    viewModel: AuthViewModel?
+) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    val kc = LocalSoftwareKeyboardController.current
+    val callBack = { kc?.hide() }
+    val focusManager = LocalFocusManager.current
 
     val loginFlow = viewModel?.loginFlow?.collectAsState()
     LazyColumn {
@@ -69,52 +81,50 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel?) {
 
                 OutlinedTextField(
                     value = email,
-                    onValueChange = {
-                        email = it
-                    },
-                    label = {
-                        Text(stringResource(R.string.email))
-                    },
+                    onValueChange = { email = it },
+                    label = { Text(stringResource(R.string.email)) },
                     modifier = Modifier.constrainAs(refEmail) {
                         top.linkTo(refHeader.bottom, spacing.extraLarge)
                         start.linkTo(parent.start, spacing.large)
                         end.linkTo(parent.end, spacing.large)
                         width = Dimension.fillToConstraints
                     },
+                    singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         capitalization = KeyboardCapitalization.None,
                         autoCorrect = false,
                         keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
                     )
                 )
 
                 OutlinedTextField(
                     value = password,
-                    onValueChange = {
-                        password = it
-                    },
-                    label = {
-                        Text(stringResource(R.string.password))
-                    },
+                    onValueChange = { password = it },
+                    label = { Text(stringResource(R.string.password)) },
                     modifier = Modifier.constrainAs(refPassword) {
                         top.linkTo(refEmail.bottom, spacing.medium)
                         start.linkTo(parent.start, spacing.large)
                         end.linkTo(parent.end, spacing.large)
                         width = Dimension.fillToConstraints
                     },
+                    singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         capitalization = KeyboardCapitalization.None,
                         autoCorrect = false,
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { callBack() }
                     )
                 )
 
                 Button(
-                    onClick = {
-                        viewModel?.login(email, password)
-                    },
+                    onClick = { viewModel?.login(email, password) },
                     modifier = Modifier.constrainAs(refButtonLogin) {
                         top.linkTo(refPassword.bottom, spacing.large)
                         start.linkTo(parent.start, spacing.extraLarge)
@@ -139,7 +149,6 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel?) {
                             top.linkTo(refButtonLogin.bottom, spacing.medium)
                             start.linkTo(parent.start, spacing.extraLarge)
                             end.linkTo(parent.end, spacing.extraLarge)
-                            //width = Dimension.fillToConstraints
                         }
                         .clickable {
                             navController.navigate(ROUTE_SIGNUP) {
@@ -159,12 +168,13 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel?) {
                         }
 
                         Resource.Loading -> {
-                            CircularProgressIndicator(modifier = Modifier.constrainAs(refLoader) {
-                                top.linkTo(parent.top)
-                                bottom.linkTo(parent.bottom)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            })
+                            CircularProgressIndicator(
+                                modifier = Modifier.constrainAs(refLoader) {
+                                    top.linkTo(parent.top)
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(parent.end)
+                                })
                         }
 
                         is Resource.Failure -> {
@@ -174,11 +184,11 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel?) {
                                 }
                             }
                         }
-                    }
-                }
-            }
-        }
-    }
+                    } // when
+                } // loginFlow
+            } // ConstraintLayout
+        } // item
+    } // LazyColumn
 }
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)

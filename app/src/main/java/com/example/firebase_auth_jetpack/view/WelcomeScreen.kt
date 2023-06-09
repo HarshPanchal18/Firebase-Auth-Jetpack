@@ -102,7 +102,7 @@ fun WelcomeScreen(navController: NavController) {
                         color = Color.White
                     )
                 }
-            }
-        }
-    }
+            } // ConstraintLayout
+        } // item
+    } // LazyColumn
 }
